@@ -1,0 +1,12 @@
+.calendar-form {
+  width: 500px;
+  height: 400px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 10px;
+  &__content {
+    display: flex;
+    flex-direction: column;
+  }
+}

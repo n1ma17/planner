@@ -1,57 +1,55 @@
-@function makelongshadow() {
-  $val: 0px 88px black;
-  @for $i from 1 through 23 {
-    $val: #{$val}, 0px #{calc(88px * $i)} black;
-  }
-  @return $val;
+// @function makelongshadow() {
+//   $val: 0px 60px black;
+//   @for $i from 1 through 23 {
+//     $val: #{$val}, 0px #{calc(60px * $i)} black;
+//   }
+//   @return $val;
+// }
+.calendar-action {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 .calendar-container {
-  max-width: 1200px;
-  height: 500px;
-  overflow: auto;
-  background-color: #07204de6;
+  height: 100%;
+  background-color: #ffffffec;
   padding: 10px;
   border-radius: 10px;
-  .calendar-form {
-    width: 80%;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    input {
-      margin: 0 10px;
-    }
-  }
+
   .calendar {
-    overflow-y: auto;
+    max-width: 1200px;
+    height: 450px;
+    overflow: auto;
     display: flex;
     gap: 8px;
     &__hours {
       min-width: 100px;
       display: grid;
-      grid-auto-rows: 80px;
-      gap: 8px;
       position: relative;
-      &:first-of-type{
-        min-width: 100px;
-      }
       > * {
         display: flex;
         justify-content: center;
         align-items: center;
-        color: white;
+        color: #000;
       }
-      &__card {
-        height: 20px;
-        background-color: transparent;
+      &__content {
+        &__card {
+          // border-bottom: 1px solid #000;
+          height: 60px;
+          width: 100%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-weight: 500;
+        }
       }
     }
     &__column {
       min-width: 100px;
-      display: grid;
-      grid-auto-rows: 50px;
-      gap: 8px;
+      grid-auto-rows: 60px;
       position: relative;
-      &:first-of-type{
+      &:first-of-type {
         min-width: 100px;
       }
       > * {
@@ -60,20 +58,22 @@
         align-items: center;
         color: black;
       }
-  
-      &::before{
-        content: '';
-        height: 1px;
-        width: 100%;
+
+      // &::after{
+      //   content: '';
+      //   height: 1px;
+      //   width: 100%;
+      //   position: absolute;
+      //   background-color: black;
+      //   top: 88px;
+      //   @debug makelongshadow();
+      //   box-shadow: makelongshadow();
+      // }
+      &__apointment {
         position: absolute;
-        background-color: black;
-        top: 88px;
-        @debug makelongshadow();
-        box-shadow: makelongshadow();
-      }
-      &__apointment{
-        position: absolute;
+        width: auto;
         min-width: 250px;
+        height: 20px;
         .apointment-content {
           display: flex;
           align-items: center;
@@ -81,16 +81,17 @@
           span {
             font-size: 12px;
             pointer-events: none;
-
           }
         }
       }
-
     }
   }
-
 }
 .days {
+  width: 100% !important;
   min-height: 80px;
+  border: unset !important;
+  &__card {
+    width: 100%;
+  }
 }
-

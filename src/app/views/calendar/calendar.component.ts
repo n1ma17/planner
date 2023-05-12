@@ -1,7 +1,8 @@
 import { CdkDragRelease, DragRef } from '@angular/cdk/drag-drop';
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { Subject } from 'rxjs';
+import { TodoFormComponent } from './todo-form/todo-form.component'; 
+import { MatDialog } from '@angular/material/dialog';
 import {
   ApointmentService,
   IApointment,
@@ -29,14 +30,16 @@ export class CalendarComponent {
     { name: 'November', days: 30 },
     { name: 'December', days: 31 },
   ];
-
+  @ViewChild('appointment') appointmentCard!: ElementRef;
+  @ViewChild('dayCard') daysCard!: ElementRef
+  @ViewChild('hours') hoursCard!: ElementRef
   controller = new FormControl(this.months[new Date().getMonth()]);
-  title = new FormControl('');
-  startDate = new FormControl(new Date());
-  constructor() {
+
+  constructor(public dialog: MatDialog) {
     ApointmentService.appointments.subscribe((value) => {
       this.apointments = value;
     });
+    
   }
 
   getMonthNames() {
@@ -67,13 +70,23 @@ export class CalendarComponent {
       return start < apointmentDate && end > apointmentDate;
     });
   }
-  rowHeight = 58;
+  rowHeight = 60 ;
+  apointmentHeight = 20;
   calcTop(apointment: IApointment) {
     const hour = apointment.start.getHours();
-
+    
     const minute = apointment.start.getMinutes();
-
-    return `top: ${hour * this.rowHeight + (this.rowHeight * minute) / 60}px`;
+    console.log({minute});
+    const top = ((hour + 1) * this.rowHeight) + ((this.rowHeight * minute) / 60) + this.daysCard?.nativeElement?.clientHeight
+    const cardsHeight =  (this.appointmentCard?.nativeElement?.clientHeight + this.hoursCard?.nativeElement?.clientHeight)/2
+    console.log({top});
+    console.log(this.appointmentCard?.nativeElement?.clientHeight);
+    console.log( this.hoursCard?.nativeElement?.clientHeight);
+    
+    
+    console.log({cardsHeight});
+    
+    return `top: ${(top - cardsHeight)}px`;
   }
   onDraged(e: CdkDragRelease<any>, apointment: IApointment) {
     const {
@@ -93,11 +106,12 @@ export class CalendarComponent {
 
     e.source.reset();
   }
-  create() {
-    ApointmentService.add({
-      title: this.title.value as string,
-      start: this.startDate.value as Date
-    })
+  openDialog() {
+    const dialogRef = this.dialog.open(TodoFormComponent);
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+    });
   }
   removeApointment(apointment: IApointment) {
     ApointmentService.remove(apointment.id)

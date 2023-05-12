@@ -1,1 +1,26 @@
-<p>todo-form works!</p>
+<h2 mat-dialog-title>Create ToDo</h2>
+<mat-dialog-content class="mat-typography">
+  <form class="calendar-form">
+    <div class="calendar-form__content">
+      <mat-form-field class="example-full-width">
+        <mat-label>title</mat-label>
+        <input [formControl]="title" matInput value="Sushi" />
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <mat-label>Choose a date</mat-label>
+        <input [formControl]="startDate" matInput [matDatepicker]="picker" />
+        <mat-hint>MM/DD/YYYY</mat-hint>
+        <mat-datepicker-toggle
+          matIconSuffix
+          [for]="picker"
+        ></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+    </div>
+    <button mat-flat-button color="primary" (click)="create()">
+      <mat-icon>check</mat-icon>
+      Create Apointment
+    </button>
+  </form>
+</mat-dialog-content>
